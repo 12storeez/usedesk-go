@@ -9,19 +9,19 @@ const (
 	CREATE_TICKET = "/create/ticket"
 )
 
-type usedesk struct {
+type Usedesk struct {
 	defaults map[string]string
 	client   *resty.Client
 }
 
-func New(apiToken string) *usedesk {
-	return &usedesk{
+func New(apiToken string) *Usedesk {
+	return &Usedesk{
 		defaults: map[string]string{"api_token": apiToken},
 		client:   resty.New().SetHostURL(BASE_URL),
 	}
 }
 
-func (u *usedesk) CreateTicket(t Ticket) (ticketID int64, err error) {
+func (u *Usedesk) CreateTicket(t Ticket) (ticketID int64, err error) {
 	params := appendMaps(u.defaults, t)
 	u.client.SetQueryParams(params)
 	resp, err := u.client.R().Post(CREATE_TICKET)
