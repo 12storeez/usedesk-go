@@ -22,9 +22,10 @@ func New(apiToken string) *Usedesk {
 }
 
 func (u *Usedesk) CreateTicket(t Ticket) (ticketID int64, err error) {
-	params := appendMaps(u.defaults, t)
-	u.client.SetQueryParams(params)
-	resp, err := u.client.R().Post(CREATE_TICKET)
+	request := u.client.R()
+	resp, err := request.
+		SetQueryParams(appendMaps(u.defaults, t)).
+		Post(CREATE_TICKET)
 	if err != nil {
 		return 0, err
 	}
